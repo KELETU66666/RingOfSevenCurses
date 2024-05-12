@@ -1,0 +1,20 @@
+item.cursed_ring.name=Ring of Seven Curses
+
+tooltip.enigmaticlegacy.cursedRing1=§5Once worn, it becomes a part of you.
+tooltip.enigmaticlegacy.cursedRing2=§4This ring will persist with you forever.
+tooltip.enigmaticlegacy.cursedRing2_creative=§6With the power of god, you can unequip it.
+tooltip.enigmaticlegacy.cursedRing3=§dSeven curses will befall whoever bears it:
+tooltip.enigmaticlegacy.cursedRing4=§5- You receive double damage from §6ANY§5 source.
+tooltip.enigmaticlegacy.cursedRing4_alt=§5- You receive §6%%1$s§5 damage from §6ANY§5 source.
+tooltip.enigmaticlegacy.cursedRing5=§5- Neutral creatures are aggresive towards you.
+tooltip.enigmaticlegacy.cursedRing6=§5- Armor is §6
+tooltip.enigmaticlegacy.cursedRing6_1=§5 less effective.
+tooltip.enigmaticlegacy.cursedRing7=§5- Monsters receive §6
+tooltip.enigmaticlegacy.cursedRing7_1=§5 less damage from you.
+tooltip.enigmaticlegacy.cursedRing8=§5- When on fire, you burn forever.
+tooltip.enigmaticlegacy.cursedRing9=§5- Every death tears your soul apart.
+tooltip.enigmaticlegacy.cursedRing10=§5- You suffer from incurable insomnia.
+
+
+tooltip.enigmaticlegacy.cursedOnesOnly1=Only those who bear the Seven Curses
+tooltip.enigmaticlegacy.cursedOnesOnly2=hold power to obtain and use this item.
