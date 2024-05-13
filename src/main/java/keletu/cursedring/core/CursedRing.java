@@ -173,9 +173,9 @@ public class CursedRing extends ItemBaseCurio {
 				//	}
 				//}
 
-				if (neutral.getRevengeTarget() == null || neutral.getRevengeTarget().isDead) {
+				if (neutral.getAttackTarget() == null || neutral.getAttackTarget().isDead) {
 					if (player.canEntityBeSeen(checkedEntity) || player.getDistance(checkedEntity) <= neutralXRayRange) {
-						neutral.setRevengeTarget(player);
+						neutral.setAttackTarget(player);
 					} else {
 						continue;
 					}
