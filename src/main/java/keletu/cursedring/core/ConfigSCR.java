@@ -34,13 +34,13 @@ public class ConfigSCR {
     public static void onConfig(FMLPreInitializationEvent builder) {
         Configuration config = new Configuration(builder.getSuggestedConfigurationFile());
 
-        painMultiplier = config.getFloat("PainModifier", "Generic Config", 200/100F, 0, 100, "Defines how much damage bearers of the ring receive from any source. Measured as percentage.");
+        painMultiplier = config.getFloat("PainModifier", "Generic Config", 2F, 0, 100, "Defines how much damage bearers of the ring receive from any source. Measured as percentage.");
 
-        monsterDamageDebuff = config.getFloat("MonsterDamageDebuff", "Generic Config", 50/100F, 0, 100, "How much damage monsters receive from bearers of the ring will be decreased, in percents.");
+        monsterDamageDebuff = config.getFloat("MonsterDamageDebuff", "Generic Config", 0.5F, 0, 100, "How much damage monsters receive from bearers of the ring will be decreased, in percents.");
 
-        armorDebuff = config.getFloat("ArmorDebuff", "Generic Config", 30/100F, 0, 1, "How much less effective armor will be for those who bear the ring. Measured as percetage.");
+        armorDebuff = config.getFloat("ArmorDebuff", "Generic Config", 0.3F, 0, 1, "How much less effective armor will be for those who bear the ring. Measured as percetage.");
 
-        experienceBonus = config.getFloat("ExperienceBonus", "Generic Config", 400/100F, 0, 100, "How much experience will drop from mobs to bearers of the ring, measured in percents.");
+        experienceBonus = config.getFloat("ExperienceBonus", "Generic Config", 4F, 0, 100, "How much experience will drop from mobs to bearers of the ring, measured in percents.");
 
         fortuneBonus = config.getInt("FortuneBonus", "Generic Config", 1, 0, 100, "How many bonus Fortune levels ring provides");
 
@@ -54,7 +54,7 @@ public class ConfigSCR {
         ultraHardcore = config.getBoolean("UltraHardcode", "Generic Config", true, "If true, Ring of the Seven Curses will be equipped into player's ring slot right away when "
                 + "entering a new world, instead of just being added to their inventory.");
 
-        knockbackDebuff = config.getFloat("KnockbackDebuff", "Generic Config", 200/100F, 0, 1, "How much knockback bearers of the ring take, measured in percents.");
+        knockbackDebuff = config.getFloat("KnockbackDebuff", "Generic Config", 2F, 0, 1, "How much knockback bearers of the ring take, measured in percents.");
 
         neutralAngerRange = config.getFloat("NeutralAngerRange", "Generic Config", 24, 4, 100, "Range in which neutral creatures are angered against bearers of the ring.");
 

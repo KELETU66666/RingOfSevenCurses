@@ -40,8 +40,9 @@ public class CursedRing extends ItemBaseCurio {
 		this.setRegistryName("cursed_ring");
 		this.setTranslationKey("cursed_ring");
 
-		this.attributeMap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(UUID.fromString("371929FC-4CBC-11E8-842F-0ED5F89F718B"), "pauldron armor", -armorDebuff, 2));
-		this.attributeMap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(UUID.fromString("22E6BD72-4CBD-11E8-842F-0ED5F89F718B"), "pauldron armor toughness", -armorDebuff, 2));
+		this.attributeMap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(UUID.fromString("371929FC-4CBC-11E8-842F-0ED5F89F718B"), "generic.armor", -armorDebuff, 2));
+		this.attributeMap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(UUID.fromString("22E6BD72-4CBD-11E8-842F-0ED5F89F718B"), "generic.armorToughness", -armorDebuff, 2));
+		this.attributeMap.put(SharedMonsterAttributes.LUCK.getName(), new AttributeModifier(UUID.fromString("F34BB326-D435-4B63-8254-0B6CB57A8E6F"), "generic.luck", lootingBonus, 0));
 	}
 
 	@Override
@@ -55,20 +56,20 @@ public class CursedRing extends ItemBaseCurio {
 				list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing4_alt") + TextFormatting.GOLD + painMultiplier+"%");
 			}
 			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing5"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing6") + TextFormatting.GOLD + armorDebuff * 100 + "%" + I18n.format("tooltip.enigmaticlegacy.cursedRing6_1"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing7") + TextFormatting.GOLD + monsterDamageDebuff * 100 + "%"  + I18n.format("tooltip.enigmaticlegacy.cursedRing7_1"));
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing6") + TextFormatting.GOLD + Math.round (armorDebuff) * 100 + "%" + I18n.format("tooltip.enigmaticlegacy.cursedRing6_1"));
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing7") + TextFormatting.GOLD + Math.round (monsterDamageDebuff) * 100 + "%"  + I18n.format("tooltip.enigmaticlegacy.cursedRing7_1"));
 			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing8"));
 			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing9"));
 			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing10"));
-			//list.add(I18n.format("tooltip.enigmaticlegacy.void"));
-			//list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing11"));
-			//list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing12") + TextFormatting.GOLD + lootingBonus);
-			//list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing13") + TextFormatting.GOLD + fortuneBonus);
-			//list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing14") + TextFormatting.GOLD + experienceBonus+"%%");
-			//list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing15") + TextFormatting.GOLD + enchantingBonus);
-			//list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing16"));
-			//list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing17"));
-			//list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing18"));
+			list.add("");
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing11"));
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing12") + TextFormatting.GOLD + lootingBonus + I18n.format("tooltip.enigmaticlegacy.cursedRing12_1"));
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing13"));
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing14") + TextFormatting.GOLD + experienceBonus+ "%" + I18n.format("tooltip.enigmaticlegacy.cursedRing14_1"));
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing15") + TextFormatting.GOLD + enchantingBonus + I18n.format("tooltip.enigmaticlegacy.cursedRing15_1"));
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing16"));
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing17"));
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing18"));
 		} else {
 			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing1"));
 

@@ -10,7 +10,14 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.boss.EntityWither;
+import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.monster.*;
+import net.minecraft.entity.passive.EntityChicken;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
@@ -21,15 +28,20 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.WorldServer;
+import net.minecraft.world.storage.loot.LootContext;
+import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import static net.minecraftforge.fml.common.eventhandler.EventPriority.HIGH;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -39,9 +51,89 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Mod.EventBusSubscriber(modid = MODID)
 public class CREvents {
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onLivingDrops(LivingDropsEvent event) {
+        if (event.isRecentlyHit() && event.getSource() != null && event.getSource().getTrueSource() instanceof EntityPlayer && hasCursed((EntityPlayer) event.getSource().getTrueSource(), cursedRing)) {
+            EntityLivingBase killed = event.getEntityLiving();
+
+            if (!ConfigSCR.enableSpecialDrops)
+                return;
+
+            if (killed.getClass() == EntitySkeleton.class || killed.getClass() == EntityStray.class) {
+                addDrop(event, getRandomSizeStack(Items.ARROW, 3, 15));
+            } else if (killed.getClass() == EntityZombie.class || killed.getClass() == EntityHusk.class) {
+                addDropWithChance(event, getRandomSizeStack(Items.SLIME_BALL, 1, 3), 25);
+            } else if (killed.getClass() == EntitySpider.class || killed.getClass() == EntityCaveSpider.class) {
+                addDrop(event, getRandomSizeStack(Items.STRING, 2, 12));
+            } else if (killed.getClass() == EntityGuardian.class) {
+                //addDropWithChance(event, new ItemStack(Items.NAUTILUS_SHELL, 1), 15);
+                addDrop(event, getRandomSizeStack(Items.PRISMARINE_CRYSTALS, 2, 5));
+            } else if (killed.getClass() == EntityElderGuardian.class) {
+                addDrop(event, getRandomSizeStack(Items.PRISMARINE_CRYSTALS, 4, 16));
+                addDrop(event, getRandomSizeStack(Items.PRISMARINE_SHARD, 7, 28));
+                addOneOf(event,
+                        //new ItemStack(guardianHeart, 1),
+                        //new ItemStack(Items.HEART_OF_THE_SEA, 1),
+                        new ItemStack(Items.GOLDEN_APPLE, 1, 1),
+                        new ItemStack(Items.ENDER_EYE, 1));
+                //,EnchantmentHelper.addRandomEnchantment(new Random(), new ItemStack(Items.TRIDENT, 1), 25+new Random().nextInt(15), true));
+            } else if (killed.getClass() == EntityEnderman.class) {
+                addDropWithChance(event, getRandomSizeStack(Items.ENDER_EYE, 1, 2), 40);
+            } else if (killed.getClass() == EntityBlaze.class) {
+                addDrop(event, getRandomSizeStack(Items.BLAZE_POWDER, 0, 5));
+                //addDropWithChance(event, new ItemStack(EnigmaticLegacy.livingFlame, 1), 15);
+            } else if (killed.getClass() == EntityPigZombie.class) {
+                addDropWithChance(event, getRandomSizeStack(Items.GOLD_INGOT, 1, 3), 40);
+                addDropWithChance(event, getRandomSizeStack(Items.GLOWSTONE_DUST, 1, 7), 30);
+            } else if (killed.getClass() == EntityWitch.class) {
+                addDropWithChance(event, new ItemStack(Items.GHAST_TEAR, 1), 30);
+                //addDrop(event, getRandomSizeStack(Items.PHANTOM_MEMBRANE, 1, 3));
+                addDropWithChance(event, new ItemStack(Items.GHAST_TEAR, 1), 30);
+                //addDropWithChance(event, getRandomSizeStack(Items.PHANTOM_MEMBRANE, 1, 3), 50);
+            } else if (/*killed.getClass() == PillagerEntity.class || */killed.getClass() == EntityVindicator.class) {
+                addDrop(event, getRandomSizeStack(Items.EMERALD, 0, 4));
+            } else if (killed.getClass() == EntityVillager.class) {
+                addDrop(event, getRandomSizeStack(Items.EMERALD, 2, 6));
+            } else if (killed.getClass() == EntityCreeper.class) {
+                addDrop(event, getRandomSizeStack(Items.GUNPOWDER, 4, 12));
+            } else if (killed.getClass() == EntityEvoker.class) {
+                addDrop(event, new ItemStack(Items.TOTEM_OF_UNDYING, 1));
+                addDrop(event, getRandomSizeStack(Items.EMERALD, 5, 20));
+                addDropWithChance(event, new ItemStack(Items.GOLDEN_APPLE, 1, 1), 10);
+                addDropWithChance(event, getRandomSizeStack(Items.ENDER_PEARL, 1, 3), 30);
+                addDropWithChance(event, getRandomSizeStack(Items.BLAZE_ROD, 2, 4), 30);
+                addDropWithChance(event, getRandomSizeStack(Items.EXPERIENCE_BOTTLE, 4, 10), 50);
+            } else if (killed.getClass() == EntityWitherSkeleton.class) {
+                addDrop(event, getRandomSizeStack(Items.BLAZE_POWDER, 0, 3));
+                addDropWithChance(event, new ItemStack(Items.GHAST_TEAR, 1), 20);
+                //addDropWithChance(event, new ItemStack(Items.NETHERITE_SCRAP, 1), 7);
+                //} else if (killed.getClass() == EntityGhast.class) {
+                //    addDrop(event, getRandomSizeStack(Items.PHANTOM_MEMBRANE, 1, 4));
+                //} else if (killed.getClass() == DrownedEntity.class) {
+                //    addDropWithChance(event, getRandomSizeStack(Items.LAPIS_LAZULI, 1, 3), 30);
+            } else if (killed.getClass() == EntityVex.class) {
+                addDrop(event, getRandomSizeStack(Items.GLOWSTONE_DUST, 0, 2));
+                //   addDropWithChance(event, new ItemStack(Items.PHANTOM_MEMBRANE, 1), 30);
+                //}  else if (killed.getClass() == PiglinEntity.class) {
+                //    addDropWithChance(event, getRandomSizeStack(Items.GOLD_INGOT, 2, 4), 50);
+                //} else if (killed.getClass() == RavagerEntity.class) {
+                //    addDrop(event, getRandomSizeStack(Items.EMERALD, 3, 10));
+                //    addDrop(event, getRandomSizeStack(Items.LEATHER, 2, 7));
+                //    addDropWithChance(event, getRandomSizeStack(Items.DIAMOND, 0, 4), 50);
+            } else if (killed.getClass() == EntityMagmaCube.class) {
+                addDrop(event, getRandomSizeStack(Items.BLAZE_POWDER, 0, 1));
+            } else if (killed.getClass() == EntityChicken.class) {
+                addDropWithChance(event, new ItemStack(Items.EGG, 1), 50);
+            } else if (killed.getClass() == EntityWither.class) {
+                addDrop(event, new ItemStack(Items.NETHER_STAR, 1));
+            }
+        }
+    }
 
     @SubscribeEvent(priority = HIGH)
     public static void hurtEvent(LivingAttackEvent event) {
@@ -70,6 +162,20 @@ public class CREvents {
             }
         }
         genericEnforce(event, event.getEntityPlayer(), stack);
+    }
+
+    @SubscribeEvent
+    public static void onEvent(BlockEvent.HarvestDropsEvent event) {
+        if (event.getHarvester() != null && !event.getDrops().isEmpty()) {
+            EntityPlayer player = event.getHarvester();
+
+            //Copied better survival mod by mujmajnkraft from https://github.com/mujmajnkraft/BetterSurvival, under MIT License.
+            if (hasCursed(player, cursedRing)) {
+                LootTable loottable = player.world.getLootTableManager().getLootTableFromLocation(new ResourceLocation(MODID, "cursed_drops"));
+                LootContext.Builder context = (new LootContext.Builder((WorldServer) player.world).withLuck(ConfigSCR.fortuneBonus));
+                event.getDrops().addAll(loottable.generateLootForPools(player.world.rand, context.build()));
+            }
+        }
     }
 
     @SubscribeEvent(priority = HIGH)
@@ -163,15 +269,14 @@ public class CREvents {
 
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
-    public static void inventoryInit(GuiScreenEvent.InitGuiEvent.Post event)
-    {
-        if(Minecraft.getMinecraft().player == null)
+    public static void inventoryInit(GuiScreenEvent.InitGuiEvent.Post event) {
+        if (Minecraft.getMinecraft().player == null)
             return;
 
-        if(event.getGui() instanceof GuiInventory) {
-            if(hasCursed(Minecraft.getMinecraft().player, cursedRing))
-                event.getButtonList().add(new EnderChestInventoryButton(7501, (event.getGui().width/2) + ConfigSCR.iconOffset, (event.getGui().height/2)-111, ""));
-            }
+        if (event.getGui() instanceof GuiInventory) {
+            if (hasCursed(Minecraft.getMinecraft().player, cursedRing))
+                event.getButtonList().add(new EnderChestInventoryButton(7501, (event.getGui().width / 2) + ConfigSCR.iconOffset, (event.getGui().height / 2) - 111, ""));
+        }
     }
 
     @SubscribeEvent
@@ -220,5 +325,26 @@ public class CREvents {
             baubleList.add(baubles.getStackInSlot(2).getItem());
 
         return baubleList.contains(theBauble);
+    }
+
+    public static void addDrop(LivingDropsEvent event, ItemStack drop) {
+        EntityItem entityitem = new EntityItem(event.getEntityLiving().world, event.getEntityLiving().posX, event.getEntityLiving().posY, event.getEntityLiving().posZ, drop);
+        entityitem.setPickupDelay(10);
+        event.getDrops().add(entityitem);
+    }
+
+    public static void addDropWithChance(LivingDropsEvent event, ItemStack drop, int chance) {
+        if (new Random().nextInt(100) < chance) {
+            addDrop(event, drop);
+        }
+    }
+
+    public static ItemStack getRandomSizeStack(Item item, int minAmount, int maxAmount) {
+        return new ItemStack(item, minAmount + new Random().nextInt(maxAmount - minAmount + 1));
+    }
+
+    public static void addOneOf(LivingDropsEvent event, ItemStack... itemStacks) {
+        int chosenStack = new Random().nextInt(itemStacks.length);
+        addDrop(event, itemStacks[chosenStack]);
     }
 }
