@@ -39,7 +39,7 @@ public class EnderChestInventoryButton extends GuiButton {
 			RenderHelper.disableStandardItemLighting();
 			GlStateManager.disableLighting();
 			//GlStateManager.disableDepth(); Makes tooltip box fall behind tabs registered later if enabled
-			String txt = I18n.format("minecraft:ender_chest");
+			String txt = I18n.format("cursedring.ender_chest_gui");
 			int i = mc.fontRenderer.getStringWidth(txt);
 
 			int l1 = mouseX + 12;

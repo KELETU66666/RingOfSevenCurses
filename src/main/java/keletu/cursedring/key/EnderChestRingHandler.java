@@ -19,7 +19,7 @@ public class EnderChestRingHandler {
     public static KeyBinding enderRingKey;
     @SideOnly(Side.CLIENT)
     public static void registerKeybinds() {
-        enderRingKey = new KeyBinding("key.enderRing", Keyboard.KEY_I, "key.categories.enigmaticLegacy");
+        enderRingKey = new KeyBinding("key.enderRing", Keyboard.KEY_I, "key.categories.cursedring");
 
         ClientRegistry.registerKeyBinding(enderRingKey);
     }
