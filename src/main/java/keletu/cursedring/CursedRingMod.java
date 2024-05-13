@@ -12,14 +12,17 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
+import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.enchanting.EnchantmentLevelSetEvent;
 import net.minecraftforge.event.entity.living.*;
@@ -55,6 +58,8 @@ public class CursedRingMod {
     public static Item cursedRing = new CursedRing();
     private static final Map<UUID, NonNullList<ItemStack>> playerKeepsMapBaubles = new HashMap<>();
     private static final String SPAWN_WITH_QUEST_BOOK = CursedRingMod.MODID + ".cursedring";
+
+    public static EnumRarity CURSE_RARITY = EnumHelper.addRarity("Curses", TextFormatting.DARK_RED, "Curses");
     public static SimpleNetworkWrapper packetInstance;
 
     @Mod.EventHandler
