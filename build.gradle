@@ -53,11 +53,7 @@ dependencies {
 }
 
 jar {
-    manifest {
-        attributes 'FMLAT': 'cursedring_at.cfg',
-                'FMLCorePlugin': 'keletu.cursedring.asm.CurseRingCoreLoader',
-                'FMLCorePluginContainsFMLMod': 'true'
-    }
+    manifest.attributes('FMLAT': 'cursedring_at.cfg')
 }
 
 processResources {

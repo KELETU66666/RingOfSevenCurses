@@ -25,7 +25,7 @@ public class ConfigSCR {
     public static double endermenRandomportFrequency;
     public static boolean saveTheBees;
     public static Boolean enableSpecialDrops;
-
+    public static int iconOffset;
     public static boolean ultraHardcore;
     public static final List<ResourceLocation> neutralAngerBlacklist = new ArrayList<>();
     public static final List<ResourceLocation> cursedItemList = new ArrayList<>();
@@ -65,6 +65,7 @@ public class ConfigSCR {
 
         endermenRandomportRange = config.getFloat("EndermenRandomportRange", "Generic Config", 32, 8, 100, "Range in which Endermen can try to randomly teleport to bearers of the ring.");
 
+        iconOffset = config.getInt("IconOffset", "Generic Config", -40, -500, 500, "X Offset for EnderChest tab");
 
         //builder.pushCategory("Save the Bees", "This category exists solely because of Jusey1z who really wanted to protect his bees."
         //        + Configuration.NEW_LINE + "Btw Jusey, when I said 'very cute though', I meant you. Bees are cute either of course.");

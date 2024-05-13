@@ -6,6 +6,8 @@ import keletu.cursedring.core.ConfigSCR;
 import static keletu.cursedring.core.ConfigSCR.painMultiplier;
 import static keletu.cursedring.core.ConfigSCR.ultraHardcore;
 import keletu.cursedring.core.CursedRing;
+import keletu.cursedring.key.EnderChestRingHandler;
+import keletu.cursedring.packet.PacketEnderRingKey;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
@@ -28,6 +30,8 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.items.ItemHandlerHelper;
@@ -49,13 +53,19 @@ public class CursedRingMod {
     public static final String VERSION = "0.1.0";
 
     public static Item cursedRing = new CursedRing();
-    public ConfigSCR configHandler = new ConfigSCR();
     private static final Map<UUID, NonNullList<ItemStack>> playerKeepsMapBaubles = new HashMap<>();
     private static final String SPAWN_WITH_QUEST_BOOK = CursedRingMod.MODID + ".cursedring";
+    public static SimpleNetworkWrapper packetInstance;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         ConfigSCR.onConfig(event);
+
+        packetInstance = NetworkRegistry.INSTANCE.newSimpleChannel("CursedChannel");
+        packetInstance.registerMessage(PacketEnderRingKey.Handler.class, PacketEnderRingKey.class, 0, Side.SERVER);
+
+        if(event.getSide().isClient())
+            EnderChestRingHandler.registerKeybinds();
     }
 
     @Mod.EventHandler

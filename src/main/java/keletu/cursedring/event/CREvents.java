@@ -8,8 +8,10 @@ import keletu.cursedring.core.ConfigSCR;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,8 +19,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingEquipmentChangeEvent;
@@ -29,6 +32,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import static net.minecraftforge.fml.common.eventhandler.EventPriority.HIGH;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -38,8 +42,6 @@ import java.util.List;
 
 @Mod.EventBusSubscriber(modid = MODID)
 public class CREvents {
-
-    private static List<String> toolTip = new ArrayList<>();
 
     @SubscribeEvent(priority = HIGH)
     public static void hurtEvent(LivingAttackEvent event) {
@@ -132,6 +134,7 @@ public class CREvents {
                             player.dropItem(stack, false);
                         }
                         player.inventory.armorInventory.set(slot.getIndex(), ItemStack.EMPTY);
+                        player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_WITHER_HURT, SoundCategory.PLAYERS, 1.0f, 0.5F);
                     }
                 }
             }
@@ -146,10 +149,10 @@ public class CREvents {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public static void onTooltip(ItemTooltipEvent event) {
-        if(event.getEntityPlayer() == null)
+        if (event.getEntityPlayer() == null)
             return;
 
-        for(ResourceLocation rl : ConfigSCR.cursedItemList) {
+        for (ResourceLocation rl : ConfigSCR.cursedItemList) {
             if (event.getItemStack().getItem() == ForgeRegistries.ITEMS.getValue(rl)) {
                 TextFormatting color = !hasCursed(event.getEntityPlayer(), cursedRing) ? TextFormatting.DARK_RED : TextFormatting.GRAY;
                 event.getToolTip().add(1, color + I18n.format("tooltip.enigmaticlegacy.cursedOnesOnly1"));
@@ -157,13 +160,45 @@ public class CREvents {
             }
         }
     }
+
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
+    public static void inventoryInit(GuiScreenEvent.InitGuiEvent.Post event)
+    {
+        if(Minecraft.getMinecraft().player == null)
+            return;
+
+        if(event.getGui() instanceof GuiInventory) {
+            if(hasCursed(Minecraft.getMinecraft().player, cursedRing))
+                event.getButtonList().add(new EnderChestInventoryButton(7501, (event.getGui().width/2) + ConfigSCR.iconOffset, (event.getGui().height/2)-111, ""));
+            }
+    }
+
+    @SubscribeEvent
+    public static void tickHandler(TickEvent.PlayerTickEvent event) {
+        EntityPlayer player = event.player;
+
+        IBaublesItemHandler baublesHandler = BaublesApi.getBaublesHandler(player);
+        for (int i = 0; i < baublesHandler.getSlots(); i++) {
+            ItemStack stack = baublesHandler.getStackInSlot(i);
+            if (isCursed(stack) && !hasCursed(player, cursedRing)) {
+                if (!player.inventory.addItemStackToInventory(stack)) {
+                    player.dropItem(stack, false);
+                }
+                baublesHandler.setStackInSlot(i, ItemStack.EMPTY);
+                player.world.playSound(null, event.player.getPosition(), SoundEvents.ENTITY_WITHER_HURT, SoundCategory.PLAYERS, 1.0f, 0.5F);
+            }
+        }
+    }
+
     public static void genericEnforce(Event event, EntityPlayer player, ItemStack stack) {
         if (!event.isCancelable() || event.isCanceled() || player == null || stack == null || stack.isEmpty() || player.isCreative())
             return;
 
-        if (!hasCursed(player, cursedRing)) {
-            if (isCursed(stack))
-                event.setCanceled(true);
+        if (!hasCursed(player, cursedRing) && isCursed(stack)) {
+            event.setCanceled(true);
+            player.world.playSound(null, player.getPosition(), SoundEvents.ENTITY_WITHER_HURT, SoundCategory.PLAYERS, 1.0f, 0.5F);
+
         }
     }
 
