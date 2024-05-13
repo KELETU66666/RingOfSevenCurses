@@ -56,8 +56,8 @@ public class CursedRing extends ItemBaseCurio {
 				list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing4_alt") + TextFormatting.GOLD + painMultiplier+"%");
 			}
 			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing5"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing6") + TextFormatting.GOLD + Math.round (armorDebuff) * 100 + "%" + I18n.format("tooltip.enigmaticlegacy.cursedRing6_1"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing7") + TextFormatting.GOLD + Math.round (monsterDamageDebuff) * 100 + "%"  + I18n.format("tooltip.enigmaticlegacy.cursedRing7_1"));
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing6") + TextFormatting.GOLD + Math.round (armorDebuff * 100) + "%" + I18n.format("tooltip.enigmaticlegacy.cursedRing6_1"));
+			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing7") + TextFormatting.GOLD + Math.round (monsterDamageDebuff * 100) + "%"  + I18n.format("tooltip.enigmaticlegacy.cursedRing7_1"));
 			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing8"));
 			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing9"));
 			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing10"));
