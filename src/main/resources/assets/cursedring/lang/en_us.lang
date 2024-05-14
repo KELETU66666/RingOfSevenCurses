@@ -1,33 +1,39 @@
 item.cursed_ring.name=Ring of Seven Curses
+item.soul_crystal.name=Soul Crystal
 
-tooltip.enigmaticlegacy.cursedRing1=§5Once worn, it becomes a part of you.
-tooltip.enigmaticlegacy.cursedRing2=§4This ring will persist with you forever.
-tooltip.enigmaticlegacy.cursedRing2_creative=§6With the power of god, you can unequip it.
-tooltip.enigmaticlegacy.cursedRing3=§dSeven curses will befall whoever bears it:
-tooltip.enigmaticlegacy.cursedRing4=§5- You receive double damage from §6ANY§5 source.
-tooltip.enigmaticlegacy.cursedRing4_alt=§5- You receive §6%%1$s§5 damage from §6ANY§5 source.
-tooltip.enigmaticlegacy.cursedRing5=§5- Neutral creatures are aggresive towards you.
-tooltip.enigmaticlegacy.cursedRing6=§5- Armor is §6
-tooltip.enigmaticlegacy.cursedRing6_1=§5 less effective.
-tooltip.enigmaticlegacy.cursedRing7=§5- Monsters receive §6
-tooltip.enigmaticlegacy.cursedRing7_1=§5 less damage from you.
-tooltip.enigmaticlegacy.cursedRing8=§5- When on fire, you burn forever.
-tooltip.enigmaticlegacy.cursedRing9=§5- Every death tears your soul apart.
-tooltip.enigmaticlegacy.cursedRing10=§5- You suffer from incurable insomnia.
-tooltip.enigmaticlegacy.cursedRing11=§dSeven blessings will reward those who withstand:
-tooltip.enigmaticlegacy.cursedRing12=§5- §6+
-tooltip.enigmaticlegacy.cursedRing12_1=§d Luck
-tooltip.enigmaticlegacy.cursedRing13=§5- Any ore you mine has a small chance to drop diamonds.
-tooltip.enigmaticlegacy.cursedRing14=§5- §6+
-tooltip.enigmaticlegacy.cursedRing14_1=§5 §dExperience§5 dropped.
-tooltip.enigmaticlegacy.cursedRing15=§5- §6+
-tooltip.enigmaticlegacy.cursedRing15_1=§d Enchanting Power§5 in §6Enchanting Table.
-tooltip.enigmaticlegacy.cursedRing16=§5- Unique drops from some creatures.
-tooltip.enigmaticlegacy.cursedRing17=§5- Functionality of §6Ring of Ender.
-tooltip.enigmaticlegacy.cursedRing18=§5- You can create and use unique items.
+tooltip.cursedring.holdShift=§5The §6Shift §5shall be held.
 
-tooltip.enigmaticlegacy.cursedOnesOnly1=Only those who bear the Seven Curses
-tooltip.enigmaticlegacy.cursedOnesOnly2=hold power to obtain and use this item.
+tooltip.cursedring.cursedRing1=§5Once worn, it becomes a part of you.
+tooltip.cursedring.cursedRing2=§4This ring will persist with you forever.
+tooltip.cursedring.cursedRing2_creative=§6With the power of god, you can unequip it.
+tooltip.cursedring.cursedRing3=§dSeven curses will befall whoever bears it:
+tooltip.cursedring.cursedRing4=§5- You receive double damage from §6ANY§5 source.
+tooltip.cursedring.cursedRing4_alt=§5- You receive §6%%1$s§5 damage from §6ANY§5 source.
+tooltip.cursedring.cursedRing5=§5- Neutral creatures are aggresive towards you.
+tooltip.cursedring.cursedRing6=§5- Armor is §6
+tooltip.cursedring.cursedRing6_1=§5 less effective.
+tooltip.cursedring.cursedRing7=§5- Monsters receive §6
+tooltip.cursedring.cursedRing7_1=§5 less damage from you.
+tooltip.cursedring.cursedRing8=§5- When on fire, you burn forever.
+tooltip.cursedring.cursedRing9=§5- Every death tears your soul apart.
+tooltip.cursedring.cursedRing10=§5- You suffer from incurable insomnia.
+tooltip.cursedring.cursedRing11=§dSeven blessings will reward those who withstand:
+tooltip.cursedring.cursedRing12=§5- §6+
+tooltip.cursedring.cursedRing12_1=§d Luck
+tooltip.cursedring.cursedRing13=§5- Any ore you mine has a small chance to drop diamonds.
+tooltip.cursedring.cursedRing14=§5- §6+
+tooltip.cursedring.cursedRing14_1=§5 §dExperience§5 dropped.
+tooltip.cursedring.cursedRing15=§5- §6+
+tooltip.cursedring.cursedRing15_1=§d Enchanting Power§5 in §6Enchanting Table.
+tooltip.cursedring.cursedRing16=§5- Unique drops from some creatures.
+tooltip.cursedring.cursedRing17=§5- Portability of §6Ender Chest.
+tooltip.cursedring.cursedRing18=§5- You can create and use unique items.
+
+tooltip.cursedring.cursedOnesOnly1=Only those who bear the Seven Curses
+tooltip.cursedring.cursedOnesOnly2=hold power to obtain and use this item.
+
+tooltip.cursedring.soulCrystal1=§6Right-Click§5 to absorb the crystal and
+tooltip.cursedring.soulCrystal2=§5restore one of your lost §6Soul Crystals.
 
 key.categories.cursedring=Cursed Ring Mod
 cursedring.ender_chest_gui=Ender Chest

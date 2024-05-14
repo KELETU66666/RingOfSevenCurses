@@ -57,35 +57,37 @@ public class CursedRing extends ItemBaseCurio {
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, @Nullable World worldIn, List<String> list, ITooltipFlag flagIn) {
 		if (GuiScreen.isShiftKeyDown()) {
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing3"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing3"));
 			if (painMultiplier == 2.0) {
-				list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing4"));
+				list.add(I18n.format("tooltip.cursedring.cursedRing4"));
 			} else {
-				list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing4_alt") + TextFormatting.GOLD + painMultiplier+"%");
+				list.add(I18n.format("tooltip.cursedring.cursedRing4_alt") + TextFormatting.GOLD + painMultiplier+"%");
 			}
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing5"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing6") + TextFormatting.GOLD + Math.round(armorDebuff * 100) + "%" + I18n.format("tooltip.enigmaticlegacy.cursedRing6_1"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing7") + TextFormatting.GOLD + Math.round(monsterDamageDebuff * 100) + "%"  + I18n.format("tooltip.enigmaticlegacy.cursedRing7_1"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing8"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing9"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing10"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing5"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing6") + TextFormatting.GOLD + Math.round(armorDebuff * 100) + "%" + I18n.format("tooltip.cursedring.cursedRing6_1"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing7") + TextFormatting.GOLD + Math.round(monsterDamageDebuff * 100) + "%"  + I18n.format("tooltip.cursedring.cursedRing7_1"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing8"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing9"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing10"));
 			list.add("");
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing11"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing12") + TextFormatting.GOLD + lootingBonus + I18n.format("tooltip.enigmaticlegacy.cursedRing12_1"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing13"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing14") + TextFormatting.GOLD + Math.round(experienceBonus * 100) + "%" + I18n.format("tooltip.enigmaticlegacy.cursedRing14_1"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing15") + TextFormatting.GOLD + enchantingBonus + I18n.format("tooltip.enigmaticlegacy.cursedRing15_1"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing16"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing17"));
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing18"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing11"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing12") + TextFormatting.GOLD + lootingBonus + I18n.format("tooltip.cursedring.cursedRing12_1"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing13"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing14") + TextFormatting.GOLD + Math.round(experienceBonus * 100) + "%" + I18n.format("tooltip.cursedring.cursedRing14_1"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing15") + TextFormatting.GOLD + enchantingBonus + I18n.format("tooltip.cursedring.cursedRing15_1"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing16"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing17"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing18"));
 		} else {
-			list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing1"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing1"));
 
 			if (Minecraft.getMinecraft().player != null && Minecraft.getMinecraft().player.isCreative()) {
-				list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing2_creative"));
+				list.add(I18n.format("tooltip.cursedring.cursedRing2_creative"));
 			} else {
-				list.add(I18n.format("tooltip.enigmaticlegacy.cursedRing2"));
+				list.add(I18n.format("tooltip.cursedring.cursedRing2"));
 			}
+			list.add("");
+			list.add(I18n.format("tooltip.cursedring.holdShift"));
 		}
 	}
 

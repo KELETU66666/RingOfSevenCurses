@@ -1,7 +1,6 @@
 package keletu.cursedring.packet;
 
 import io.netty.buffer.ByteBuf;
-import keletu.cursedring.CursedRingMod;
 import static keletu.cursedring.event.CREvents.hasCursed;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.SoundEvents;
@@ -41,7 +40,7 @@ public class PacketEnderRingKey implements IMessage {
 		public IMessage onMessage(PacketEnderRingKey message, MessageContext ctx) {
 			EntityPlayerMP playerServ = ctx.getServerHandler().player;
 
-			if (hasCursed(playerServ, CursedRingMod.cursedRing)) {
+			if (hasCursed(playerServ)) {
 				playerServ.displayGUIChest(playerServ.getInventoryEnderChest());
 				playerServ.world.playSound(null, playerServ.getPosition(), SoundEvents.BLOCK_ENDERCHEST_OPEN, SoundCategory.PLAYERS, 1.0F, (float) (0.8F + (Math.random() * 0.2)));
 			}
