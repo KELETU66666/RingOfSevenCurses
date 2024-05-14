@@ -5,9 +5,7 @@ import keletu.cursedring.key.EnderChestRingHandler;
 import keletu.cursedring.packet.PacketEnderRingKey;
 import keletu.cursedring.packet.PacketRecallParticles;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -50,7 +48,7 @@ public class CursedRingMod {
         ConfigSCR.onConfig(event);
 
         packetInstance = NetworkRegistry.INSTANCE.newSimpleChannel("CursedChannel");
-        packetInstance.registerMessage(PacketRecallParticles.Handler.class, PacketRecallParticles.class, 0, Side.CLIENT);
+        packetInstance.registerMessage(PacketRecallParticles.Handler.class, PacketRecallParticles.class, 0, Side.SERVER);
         packetInstance.registerMessage(PacketEnderRingKey.Handler.class, PacketEnderRingKey.class, 1, Side.SERVER);
 
         if (event.getSide().isClient())
@@ -76,24 +74,20 @@ public class CursedRingMod {
             event.getRegistry().register(soulCrystal);
         }
 
-        public static <ENTITY extends Entity> void register(Class<ENTITY> classes, final Class<? extends Render<ENTITY>> render) {
-            RenderingRegistry.registerEntityRenderingHandler(classes, manager -> {
-                try {
-                    return render.getConstructor(new Class[] { RenderManager.class }).newInstance(manager);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            });
-        }
-
         @SubscribeEvent
         @SideOnly(Side.CLIENT)
         public static void modelRegistryEvent(ModelRegistryEvent event) {
             ModelLoader.setCustomModelResourceLocation(cursedRing, 0, new ModelResourceLocation(cursedRing.getRegistryName(), "inventory"));
             ModelLoader.setCustomModelResourceLocation(soulCrystal, 0, new ModelResourceLocation(soulCrystal.getRegistryName(), "inventory"));
 
-            register(EntityItemIndestructible.class, RenderEntityItemIndestructible.class);
+            RenderingRegistry.registerEntityRenderingHandler(EntityItemIndestructible.class, manager -> {
+                try {
+                    return RenderEntityItemIndestructible.class.getConstructor(RenderManager.class).newInstance(manager);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return null;
+                }
+            });
         }
     }
 }

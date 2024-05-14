@@ -72,7 +72,7 @@ public class RenderEntityItemIndestructible extends Render<EntityItemIndestructi
     public void doRender(EntityItemIndestructible p_doRender_1_, double p_doRender_2_, double p_doRender_4_, double p_doRender_6_, float p_doRender_8_, float p_doRender_9_) {
         ItemStack itemstack = p_doRender_1_.getItem();
         int i = itemstack.isEmpty() ? 187 : Item.getIdFromItem(itemstack.getItem()) + itemstack.getMetadata();
-        this.random.setSeed((long)i);
+        this.random.setSeed(i);
         boolean flag = false;
         if (this.bindEntityTexture(p_doRender_1_)) {
             this.renderManager.renderEngine.getTexture(this.getEntityTexture(p_doRender_1_)).setBlurMipmap(false, false);
@@ -85,7 +85,7 @@ public class RenderEntityItemIndestructible extends Render<EntityItemIndestructi
         RenderHelper.enableStandardItemLighting();
         GlStateManager.tryBlendFuncSeparate(SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA, SourceFactor.ONE, DestFactor.ZERO);
         GlStateManager.pushMatrix();
-        IBakedModel ibakedmodel = this.itemRenderer.getItemModelWithOverrides(itemstack, p_doRender_1_.world, (EntityLivingBase)null);
+        IBakedModel ibakedmodel = this.itemRenderer.getItemModelWithOverrides(itemstack, p_doRender_1_.world, null);
         int j = this.transformModelCount(p_doRender_1_, p_doRender_2_, p_doRender_4_, p_doRender_6_, p_doRender_9_, ibakedmodel);
         boolean flag1 = ibakedmodel.isGui3d();
         float f7;
