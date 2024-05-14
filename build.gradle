@@ -12,7 +12,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'com.wynprice.cursemaven'
 
-version = "0.1.0"
+version = "1.0.0-alpha"
 group = "keletu.cursedring"
 archivesBaseName = "Cursed Ring Mod"
 
