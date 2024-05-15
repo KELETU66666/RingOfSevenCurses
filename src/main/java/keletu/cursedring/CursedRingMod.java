@@ -48,7 +48,7 @@ public class CursedRingMod {
         ConfigSCR.onConfig(event);
 
         packetInstance = NetworkRegistry.INSTANCE.newSimpleChannel("CursedChannel");
-        packetInstance.registerMessage(PacketRecallParticles.Handler.class, PacketRecallParticles.class, 0, Side.SERVER);
+        packetInstance.registerMessage(PacketRecallParticles.Handler.class, PacketRecallParticles.class, 0, Side.CLIENT);
         packetInstance.registerMessage(PacketEnderRingKey.Handler.class, PacketEnderRingKey.class, 1, Side.SERVER);
 
         if (event.getSide().isClient())

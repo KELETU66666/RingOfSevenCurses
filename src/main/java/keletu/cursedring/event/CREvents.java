@@ -346,7 +346,7 @@ public class CREvents {
     public static void onPlayerTick(LivingEvent.LivingUpdateEvent event) {
         if (event.getEntityLiving() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-            if (player.isPlayerSleeping() && player.getSleepTimer() > 90 && BaublesApi.isBaubleEquipped(player, cursedRing) != -1) {
+            if (player.isPlayerSleeping() && player.sleepTimer > 90 && BaublesApi.isBaubleEquipped(player, cursedRing) != -1) {
                 player.sleepTimer = 90;
             }
             if (player.isBurning() && BaublesApi.isBaubleEquipped(player, cursedRing) != -1) {
