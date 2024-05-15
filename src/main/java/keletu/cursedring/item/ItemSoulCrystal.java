@@ -1,4 +1,4 @@
-package keletu.cursedring.core;
+package keletu.cursedring.item;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -13,6 +13,7 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
@@ -30,10 +31,10 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.WeakHashMap;
 
-public class SoulCrystal extends ItemBase {
+public class ItemSoulCrystal extends Item {
 	public Map<EntityPlayer, Multimap<String, AttributeModifier>> attributeDispatcher = new WeakHashMap<>();
 
-	public SoulCrystal() {
+	public ItemSoulCrystal() {
 		this.maxStackSize = 1;
 		this.setRegistryName(new ResourceLocation(CursedRingMod.MODID, "soul_crystal"));
 		this.setTranslationKey("soul_crystal");

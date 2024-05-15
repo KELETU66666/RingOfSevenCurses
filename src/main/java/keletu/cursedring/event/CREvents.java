@@ -5,11 +5,11 @@ import baubles.api.cap.IBaublesItemHandler;
 import keletu.cursedring.CursedRingMod;
 import static keletu.cursedring.CursedRingMod.MODID;
 import static keletu.cursedring.CursedRingMod.cursedRing;
-import keletu.cursedring.core.ConfigSCR;
-import static keletu.cursedring.core.ConfigSCR.painMultiplier;
-import static keletu.cursedring.core.ConfigSCR.ultraHardcore;
-import keletu.cursedring.core.CursedRing;
-import keletu.cursedring.core.EntityItemIndestructible;
+import keletu.cursedring.ConfigSCR;
+import static keletu.cursedring.ConfigSCR.painMultiplier;
+import static keletu.cursedring.ConfigSCR.ultraHardcore;
+import keletu.cursedring.item.ItemCursedRing;
+import keletu.cursedring.entity.EntityItemIndestructible;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -421,22 +421,23 @@ public class CREvents {
 
     @SubscribeEvent
     public static void onPlayerJoin(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent event) {
+        NBTTagCompound playerData = event.player.getEntityData();
+        NBTTagCompound data = playerData.hasKey(EntityPlayer.PERSISTED_NBT_TAG) ? playerData.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG) : new NBTTagCompound();
 
         if (ultraHardcore) {
-            NBTTagCompound playerData = event.player.getEntityData();
-            NBTTagCompound data = playerData.hasKey(EntityPlayer.PERSISTED_NBT_TAG) ? playerData.getCompoundTag(EntityPlayer.PERSISTED_NBT_TAG) : new NBTTagCompound();
-
             if (!data.getBoolean(SPAWN_WITH_CURSE)) {
                 IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(event.player);
                 if (BaublesApi.getBaublesHandler(event.player).getStackInSlot(1) == ItemStack.EMPTY)
                     baubles.setStackInSlot(1, new ItemStack(cursedRing));
                 else
                     ItemHandlerHelper.giveItemToPlayer(event.player, new ItemStack(cursedRing));
-                data.setBoolean(SPAWN_WITH_CURSE, true);
-                playerData.setTag(EntityPlayer.PERSISTED_NBT_TAG, data);
             }
+        } else {
+            ItemHandlerHelper.giveItemToPlayer(event.player, new ItemStack(cursedRing));
         }
 
+        data.setBoolean(SPAWN_WITH_CURSE, true);
+        playerData.setTag(EntityPlayer.PERSISTED_NBT_TAG, data);
         if (event.player instanceof EntityPlayerMP) {
             EntityPlayerMP player = (EntityPlayerMP) event.player;
             CursedRingMod.soulCrystal.updatePlayerSoulMap(player);
@@ -473,7 +474,7 @@ public class CREvents {
 
         for (int i = 0; i < baubles.getSlots(); i++) {
             ItemStack stack = baubles.getStackInSlot(i);
-            if (stack.getItem() instanceof CursedRing) {
+            if (stack.getItem() instanceof ItemCursedRing) {
                 kept.set(i, baubles.getStackInSlot(i).copy());
                 baubles.setStackInSlot(i, ItemStack.EMPTY);
                 if (player instanceof EntityPlayerMP && shouldPlayerDropSoulCrystal(player)) {

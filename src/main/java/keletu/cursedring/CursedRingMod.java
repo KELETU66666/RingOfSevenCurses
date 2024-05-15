@@ -1,6 +1,9 @@
 package keletu.cursedring;
 
-import keletu.cursedring.core.*;
+import keletu.cursedring.entity.EntityItemIndestructible;
+import keletu.cursedring.entity.RenderEntityItemIndestructible;
+import keletu.cursedring.item.ItemCursedRing;
+import keletu.cursedring.item.ItemSoulCrystal;
 import keletu.cursedring.key.EnderChestRingHandler;
 import keletu.cursedring.packet.PacketEnderRingKey;
 import keletu.cursedring.packet.PacketRecallParticles;
@@ -39,8 +42,8 @@ public class CursedRingMod {
     public static final String MOD_NAME = "Ring of Seven Curses";
     public static final String VERSION = "1.0.0";
 
-    public static Item cursedRing = new CursedRing();
-    public static SoulCrystal soulCrystal = new SoulCrystal();
+    public static Item cursedRing = new ItemCursedRing();
+    public static ItemSoulCrystal soulCrystal = new ItemSoulCrystal();
 
     public static EnumRarity CURSE_RARITY = EnumHelper.addRarity("Curses", TextFormatting.DARK_RED, "Curses");
     public static SimpleNetworkWrapper packetInstance;

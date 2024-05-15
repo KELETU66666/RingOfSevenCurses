@@ -1,4 +1,4 @@
-package keletu.cursedring.core;
+package keletu.cursedring;
 
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.config.Configuration;

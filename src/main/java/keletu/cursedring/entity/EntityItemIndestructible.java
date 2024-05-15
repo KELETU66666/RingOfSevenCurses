@@ -18,10 +18,11 @@
  *  along with Thaumic Augmentation.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package keletu.cursedring.core;
+package keletu.cursedring.entity;
 
 import com.google.common.base.Optional;
 import keletu.cursedring.CursedRingMod;
+import keletu.cursedring.item.ItemSoulCrystal;
 import keletu.cursedring.packet.PacketRecallParticles;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -120,6 +121,7 @@ public class EntityItemIndestructible extends EntityItem {
     public void onUpdate() {
         super.onUpdate();
         this.setNoDespawn();
+        this.setGlowing(true);
         motionX *= 0.9;
         motionY *= 0.9;
         motionZ *= 0.9;
@@ -161,7 +163,7 @@ public class EntityItemIndestructible extends EntityItem {
 
             ItemStack clone = itemstack.copy();
             boolean isPlayerOwner = player.getUniqueID().equals(this.getOwnerId());
-            boolean allowPickUp = item instanceof SoulCrystal && isPlayerOwner;
+            boolean allowPickUp = item instanceof ItemSoulCrystal && isPlayerOwner;
 
             if (allowPickUp) {
 

@@ -1,10 +1,11 @@
-package keletu.cursedring.core;
+package keletu.cursedring.item;
 
 import baubles.api.BaubleType;
+import baubles.api.IBauble;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import keletu.cursedring.CursedRingMod;
-import static keletu.cursedring.core.ConfigSCR.*;
+import static keletu.cursedring.ConfigSCR.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
@@ -22,6 +23,7 @@ import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.TextFormatting;
@@ -34,13 +36,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class CursedRing extends ItemBaseCurio {
+public class ItemCursedRing extends Item implements IBauble {
 
 	protected final Multimap<String, AttributeModifier> attributeMap = HashMultimap.create();
 
-	public CursedRing() {
+	public ItemCursedRing() {
 		this.setRegistryName("cursed_ring");
 		this.setTranslationKey("cursed_ring");
+		this.maxStackSize = 1;
 
 		this.attributeMap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(UUID.fromString("371929FC-4CBC-11E8-842F-0ED5F89F718B"), "generic.armor", -armorDebuff, 2));
 		this.attributeMap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(UUID.fromString("22E6BD72-4CBD-11E8-842F-0ED5F89F718B"), "generic.armorToughness", -armorDebuff, 2));
@@ -93,10 +96,7 @@ public class CursedRing extends ItemBaseCurio {
 
 	@Override
 	public boolean canUnequip(ItemStack stack, EntityLivingBase living) {
-		if (living instanceof EntityPlayer && ((EntityPlayer) living).isCreative())
-			return super.canUnequip(stack, living);
-		else
-			return false;
+		return living instanceof EntityPlayer && ((EntityPlayer) living).isCreative();
 	}
 
 	@Override
