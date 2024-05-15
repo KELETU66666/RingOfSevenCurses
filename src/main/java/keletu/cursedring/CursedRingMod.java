@@ -29,8 +29,6 @@ import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import java.util.logging.Logger;
-
 @Mod(
         modid = CursedRingMod.MODID,
         name = CursedRingMod.MOD_NAME,
@@ -47,7 +45,6 @@ public class CursedRingMod {
 
     public static EnumRarity CURSE_RARITY = EnumHelper.addRarity("Curses", TextFormatting.DARK_RED, "Curses");
     public static SimpleNetworkWrapper packetInstance;
-    public static Logger logger;
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         ConfigSCR.onConfig(event);

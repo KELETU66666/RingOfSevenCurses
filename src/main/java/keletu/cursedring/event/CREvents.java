@@ -189,7 +189,6 @@ public class CREvents {
 
     public static boolean shouldPlayerDropSoulCrystal(EntityPlayer player) {
         if (Loader.isModLoaded("gokistats")) {
-            CursedRingMod.logger.info("gokistats disabled heart break mode");
             return false;
         }
         return CursedRingMod.soulCrystal.getLostCrystals(player) < ConfigSCR.heartLoss;
