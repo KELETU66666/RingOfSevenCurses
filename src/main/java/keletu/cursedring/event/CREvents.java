@@ -50,6 +50,7 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -184,6 +185,14 @@ public class CREvents {
             }
         }
         genericEnforce(event, event.getEntityPlayer(), stack);
+    }
+
+    public static boolean shouldPlayerDropSoulCrystal(EntityPlayer player) {
+        if (Loader.isModLoaded("gokistats")) {
+            CursedRingMod.logger.info("gokistats disabled heart break mode");
+            return false;
+        }
+        return CursedRingMod.soulCrystal.getLostCrystals(player) < ConfigSCR.heartLoss;
     }
 
     @SubscribeEvent
@@ -467,7 +476,7 @@ public class CREvents {
             if (stack.getItem() instanceof CursedRing) {
                 kept.set(i, baubles.getStackInSlot(i).copy());
                 baubles.setStackInSlot(i, ItemStack.EMPTY);
-                if (player instanceof EntityPlayerMP && CursedRingMod.soulCrystal.getLostCrystals(player) < 9) {
+                if (player instanceof EntityPlayerMP && shouldPlayerDropSoulCrystal(player)) {
                     ItemStack soulCrystal = CursedRingMod.soulCrystal.createCrystalFrom(player);
                     EntityItemIndestructible droppedSoulCrystal = new EntityItemIndestructible(player.world, player.posX, player.posY + 1.5, player.posZ, soulCrystal);
                     droppedSoulCrystal.setOwnerId(player.getUniqueID());
