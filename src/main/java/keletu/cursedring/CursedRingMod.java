@@ -47,7 +47,7 @@ public class CursedRingMod {
     public static SimpleNetworkWrapper packetInstance;
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        ConfigSCR.onConfig(event);
+        ConfigsCR.onConfig(event);
 
         packetInstance = NetworkRegistry.INSTANCE.newSimpleChannel("CursedChannel");
         packetInstance.registerMessage(PacketRecallParticles.Handler.class, PacketRecallParticles.class, 0, Side.CLIENT);

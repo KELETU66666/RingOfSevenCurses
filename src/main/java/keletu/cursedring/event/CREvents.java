@@ -5,9 +5,9 @@ import baubles.api.cap.IBaublesItemHandler;
 import keletu.cursedring.CursedRingMod;
 import static keletu.cursedring.CursedRingMod.MODID;
 import static keletu.cursedring.CursedRingMod.cursedRing;
-import keletu.cursedring.ConfigSCR;
-import static keletu.cursedring.ConfigSCR.painMultiplier;
-import static keletu.cursedring.ConfigSCR.ultraHardcore;
+import keletu.cursedring.ConfigsCR;
+import static keletu.cursedring.ConfigsCR.painMultiplier;
+import static keletu.cursedring.ConfigsCR.ultraHardcore;
 import keletu.cursedring.item.ItemCursedRing;
 import keletu.cursedring.entity.EntityItemIndestructible;
 import net.minecraft.block.Block;
@@ -84,7 +84,7 @@ public class CREvents {
 
             EntityLivingBase killed = event.getEntityLiving();
 
-            if (!ConfigSCR.enableSpecialDrops)
+            if (!ConfigsCR.enableSpecialDrops)
                 return;
 
             if (killed.getClass() == EntitySkeleton.class || killed.getClass() == EntityStray.class) {
@@ -191,7 +191,7 @@ public class CREvents {
         if (Loader.isModLoaded("gokistats")) {
             return false;
         }
-        return CursedRingMod.soulCrystal.getLostCrystals(player) < ConfigSCR.heartLoss;
+        return CursedRingMod.soulCrystal.getLostCrystals(player) < ConfigsCR.heartLoss;
     }
 
     @SubscribeEvent
@@ -202,7 +202,7 @@ public class CREvents {
             //Copied better survival mod by mujmajnkraft from https://github.com/mujmajnkraft/BetterSurvival, under MIT License.
             if (hasCursed(player)) {
                 LootTable loottable = player.world.getLootTableManager().getLootTableFromLocation(new ResourceLocation(MODID, "cursed_drops"));
-                LootContext.Builder context = (new LootContext.Builder((WorldServer) player.world).withLuck(ConfigSCR.fortuneBonus));
+                LootContext.Builder context = (new LootContext.Builder((WorldServer) player.world).withLuck(ConfigsCR.fortuneBonus));
                 event.getDrops().addAll(loottable.generateLootForPools(player.world.rand, context.build()));
             }
         }
@@ -288,7 +288,7 @@ public class CREvents {
         if (event.getEntityPlayer() == null)
             return;
 
-        for (ResourceLocation rl : ConfigSCR.cursedItemList) {
+        for (ResourceLocation rl : ConfigsCR.cursedItemList) {
             if (event.getItemStack().getItem() == ForgeRegistries.ITEMS.getValue(rl)) {
                 TextFormatting color = !hasCursed(event.getEntityPlayer()) ? TextFormatting.DARK_RED : TextFormatting.GRAY;
                 event.getToolTip().add(1, color + I18n.format("tooltip.cursedring.cursedOnesOnly1"));
@@ -305,7 +305,7 @@ public class CREvents {
 
         if (event.getGui() instanceof GuiInventory) {
             if (hasCursed(Minecraft.getMinecraft().player))
-                event.getButtonList().add(new EnderChestInventoryButton(7501, (event.getGui().width / 2) + ConfigSCR.iconOffset, (event.getGui().height / 2) - 111, ""));
+                event.getButtonList().add(new EnderChestInventoryButton(7501, (event.getGui().width / 2) + ConfigsCR.iconOffset, (event.getGui().height / 2) - 111, ""));
         }
     }
 
@@ -336,19 +336,19 @@ public class CREvents {
         List<EntityPlayer> players = event.getWorld().getEntitiesWithinAABB(EntityPlayer.class, new AxisAlignedBB(where.add(-radius, -radius, -radius), where.add(radius, radius, radius)));
 
         for (EntityPlayer player : players)
-            if (BaublesApi.isBaubleEquipped(player, cursedRing) != -1) {
+            if (hasCursed(player)) {
                 shouldBoost = true;
             }
 
         if (shouldBoost) {
-            event.setLevel(event.getLevel() + ConfigSCR.enchantingBonus);
+            event.setLevel(event.getLevel() + ConfigsCR.enchantingBonus);
         }
     }
 
     @SubscribeEvent
     public static void onLivingKnockback(LivingKnockBackEvent event) {
         if (event.getEntityLiving() instanceof EntityPlayer && BaublesApi.isBaubleEquipped((EntityPlayer) event.getEntityLiving(), cursedRing) != -1) {
-            event.setStrength(event.getStrength() * ConfigSCR.knockbackDebuff);
+            event.setStrength(event.getStrength() * ConfigsCR.knockbackDebuff);
         }
     }
 
@@ -356,10 +356,10 @@ public class CREvents {
     public static void onPlayerTick(LivingEvent.LivingUpdateEvent event) {
         if (event.getEntityLiving() instanceof EntityPlayer) {
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
-            if (player.isPlayerSleeping() && player.sleepTimer > 90 && BaublesApi.isBaubleEquipped(player, cursedRing) != -1) {
+            if (player.isPlayerSleeping() && player.sleepTimer > 90 && hasCursed(player)) {
                 player.sleepTimer = 90;
             }
-            if (player.isBurning() && BaublesApi.isBaubleEquipped(player, cursedRing) != -1) {
+            if (player.isBurning() && hasCursed(player)) {
                 player.setFire(player.fire + 2);
             }
         }
@@ -376,8 +376,8 @@ public class CREvents {
         if (event.getEntityLiving() instanceof EntityMob) {
             if (event.getSource().getTrueSource() instanceof EntityPlayer) {
                 EntityPlayer player = (EntityPlayer) event.getSource().getTrueSource();
-                if (BaublesApi.isBaubleEquipped(player, cursedRing) != -1) {
-                    event.setAmount(event.getAmount() * ConfigSCR.monsterDamageDebuff);
+                if (hasCursed(player)) {
+                    event.setAmount(event.getAmount() * ConfigsCR.monsterDamageDebuff);
                 }
             }
         }
@@ -388,8 +388,8 @@ public class CREvents {
         EntityPlayer player = event.getAttackingPlayer();
         int bonusExp = 0;
 
-        if (player != null && BaublesApi.isBaubleEquipped(player, cursedRing) != -1) {
-            bonusExp += event.getOriginalExperience() * ConfigSCR.experienceBonus;
+        if (player != null && hasCursed(player)) {
+            bonusExp += event.getOriginalExperience() * ConfigsCR.experienceBonus;
         }
 
         event.setDroppedExperience(event.getDroppedExperience() + bonusExp);
@@ -535,18 +535,11 @@ public class CREvents {
     }
 
     private static boolean isCursed(ItemStack stack) {
-        return ConfigSCR.cursedItemList.contains(stack.getItem().getRegistryName());
+        return ConfigsCR.cursedItemList.contains(stack.getItem().getRegistryName());
     }
 
     public static boolean hasCursed(EntityPlayer player) {
-        IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(player);
-        List<Item> baubleList = new ArrayList<>();
-        if (baubles.getStackInSlot(1) != ItemStack.EMPTY)
-            baubleList.add(baubles.getStackInSlot(1).getItem());
-        if (baubles.getStackInSlot(2) != ItemStack.EMPTY)
-            baubleList.add(baubles.getStackInSlot(2).getItem());
-
-        return baubleList.contains(cursedRing);
+        return BaublesApi.isBaubleEquipped(player, cursedRing) != -1;
     }
 
     public static void addDrop(LivingDropsEvent event, ItemStack drop) {

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ConfigSCR {
+public class ConfigsCR {
 
     public static float painMultiplier;
     public static float monsterDamageDebuff;
@@ -66,7 +66,7 @@ public class ConfigSCR {
 
         endermenRandomportRange = config.getFloat("EndermenRandomportRange", "Generic Config", 32, 8, 100, "Range in which Endermen can try to randomly teleport to bearers of the ring.");
 
-        iconOffset = config.getInt("IconOffset", "Generic Config", -40, -500, 500, "X Offset for EnderChest tab");
+        iconOffset = config.getInt("IconOffset", "Generic Config", -51, -500, 500, "X Offset for EnderChest tab");
 
         heartLoss = config.getInt("MaxHeartLoss", "Generic Config", 7, 0, 9, "Max amount of heart loss");
 

@@ -5,7 +5,7 @@ import baubles.api.IBauble;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 import keletu.cursedring.CursedRingMod;
-import static keletu.cursedring.ConfigSCR.*;
+import static keletu.cursedring.ConfigsCR.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
