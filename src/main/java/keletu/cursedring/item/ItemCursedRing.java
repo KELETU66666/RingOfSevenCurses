@@ -12,10 +12,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntityIronGolem;
@@ -157,7 +154,7 @@ public class ItemCursedRing extends Item implements IBauble {
 			if (checkedEntity instanceof EntityLiving) {
 				EntityLiving neutral = (EntityLiving) checkedEntity;
 
-				if (neutralAngerBlacklist.contains(checkedEntity.getDisplayName())) {
+				if (neutralAngerBlacklist.contains(EntityList.getKey(checkedEntity))) {
 					continue;
 				}
 
