@@ -347,7 +347,7 @@ public class CREvents {
 
     @SubscribeEvent
     public static void onLivingKnockback(LivingKnockBackEvent event) {
-        if (event.getEntityLiving() instanceof EntityPlayer && BaublesApi.isBaubleEquipped((EntityPlayer) event.getEntityLiving(), cursedRing) != -1) {
+        if (event.getEntityLiving() instanceof EntityPlayer && hasCursed((EntityPlayer) event.getEntityLiving())) {
             event.setStrength(event.getStrength() * ConfigsCR.knockbackDebuff);
         }
     }
@@ -370,7 +370,7 @@ public class CREvents {
         if (event.getAmount() >= Float.MAX_VALUE)
             return;
 
-        if (event.getEntityLiving() instanceof EntityPlayer && BaublesApi.isBaubleEquipped((EntityPlayer) event.getEntityLiving(), cursedRing) != -1) {
+        if (event.getEntityLiving() instanceof EntityPlayer && hasCursed((EntityPlayer) event.getEntityLiving())) {
             event.setAmount(event.getAmount() * painMultiplier);
         }
         if (event.getEntityLiving() instanceof EntityMob) {
@@ -539,7 +539,7 @@ public class CREvents {
     }
 
     public static boolean hasCursed(EntityPlayer player) {
-        return BaublesApi.isBaubleEquipped(player, cursedRing) != -1;
+        return !player.isEntityAlive() || BaublesApi.isBaubleEquipped(player, cursedRing) != -1;
     }
 
     public static void addDrop(LivingDropsEvent event, ItemStack drop) {
