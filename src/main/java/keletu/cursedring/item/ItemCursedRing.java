@@ -45,7 +45,6 @@ public class ItemCursedRing extends Item implements IBauble {
 
 		this.attributeMap.put(SharedMonsterAttributes.ARMOR.getName(), new AttributeModifier(UUID.fromString("371929FC-4CBC-11E8-842F-0ED5F89F718B"), "generic.armor", -armorDebuff, 2));
 		this.attributeMap.put(SharedMonsterAttributes.ARMOR_TOUGHNESS.getName(), new AttributeModifier(UUID.fromString("22E6BD72-4CBD-11E8-842F-0ED5F89F718B"), "generic.armorToughness", -armorDebuff, 2));
-		this.attributeMap.put(SharedMonsterAttributes.LUCK.getName(), new AttributeModifier(UUID.fromString("F34BB326-D435-4B63-8254-0B6CB57A8E6F"), "generic.luck", lootingBonus, 0));
 	}
 
 
@@ -72,8 +71,8 @@ public class ItemCursedRing extends Item implements IBauble {
 			list.add(I18n.format("tooltip.cursedring.cursedRing10"));
 			list.add("");
 			list.add(I18n.format("tooltip.cursedring.cursedRing11"));
-			list.add(I18n.format("tooltip.cursedring.cursedRing12") + TextFormatting.GOLD + lootingBonus + I18n.format("tooltip.cursedring.cursedRing12_1"));
-			list.add(I18n.format("tooltip.cursedring.cursedRing13"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing12") + TextFormatting.GOLD + fortuneBonus + I18n.format("tooltip.cursedring.cursedRing12_1"));
+			list.add(I18n.format("tooltip.cursedring.cursedRing13") + TextFormatting.GOLD + lootingBonus + I18n.format("tooltip.cursedring.cursedRing13_1"));
 			list.add(I18n.format("tooltip.cursedring.cursedRing14") + TextFormatting.GOLD + Math.round(experienceBonus * 100) + "%" + I18n.format("tooltip.cursedring.cursedRing14_1"));
 			list.add(I18n.format("tooltip.cursedring.cursedRing15") + TextFormatting.GOLD + enchantingBonus + I18n.format("tooltip.cursedring.cursedRing15_1"));
 			list.add(I18n.format("tooltip.cursedring.cursedRing16"));

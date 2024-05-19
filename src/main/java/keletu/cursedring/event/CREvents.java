@@ -15,6 +15,7 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.resources.I18n;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.EntityWither;
@@ -38,9 +39,6 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.world.WorldServer;
-import net.minecraft.world.storage.loot.LootContext;
-import net.minecraft.world.storage.loot.LootTable;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.event.enchanting.EnchantmentLevelSetEvent;
@@ -94,17 +92,17 @@ public class CREvents {
             } else if (killed.getClass() == EntitySpider.class || killed.getClass() == EntityCaveSpider.class) {
                 addDrop(event, getRandomSizeStack(Items.STRING, 2, 12));
             } else if (killed.getClass() == EntityGuardian.class) {
-                //addDropWithChance(event, new ItemStack(Items.NAUTILUS_SHELL, 1), 15);
+                addDropWithChance(event, new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("oe", "nautilus_shell")), 1), 15);
                 addDrop(event, getRandomSizeStack(Items.PRISMARINE_CRYSTALS, 2, 5));
             } else if (killed.getClass() == EntityElderGuardian.class) {
                 addDrop(event, getRandomSizeStack(Items.PRISMARINE_CRYSTALS, 4, 16));
                 addDrop(event, getRandomSizeStack(Items.PRISMARINE_SHARD, 7, 28));
                 addOneOf(event,
                         //new ItemStack(guardianHeart, 1),
-                        //new ItemStack(Items.HEART_OF_THE_SEA, 1),
+                        new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("oe", "heart_of_the_sea")), 1),
                         new ItemStack(Items.GOLDEN_APPLE, 1, 1),
-                        new ItemStack(Items.ENDER_EYE, 1));
-                //,EnchantmentHelper.addRandomEnchantment(new Random(), new ItemStack(Items.TRIDENT, 1), 25+new Random().nextInt(15), true));
+                        new ItemStack(Items.ENDER_EYE, 1),
+                        EnchantmentHelper.addRandomEnchantment(new Random(), new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("oe", "trident")), 1), 25 + new Random().nextInt(15), true));
             } else if (killed.getClass() == EntityEnderman.class) {
                 addDropWithChance(event, getRandomSizeStack(Items.ENDER_EYE, 1, 2), 40);
             } else if (killed.getClass() == EntityBlaze.class) {
@@ -118,7 +116,7 @@ public class CREvents {
                 //addDrop(event, getRandomSizeStack(Items.PHANTOM_MEMBRANE, 1, 3));
                 addDropWithChance(event, new ItemStack(Items.GHAST_TEAR, 1), 30);
                 //addDropWithChance(event, getRandomSizeStack(Items.PHANTOM_MEMBRANE, 1, 3), 50);
-            } else if (/*killed.getClass() == PillagerEntity.class || */killed.getClass() == EntityVindicator.class) {
+            } else if ((Loader.isModLoaded("raids") && killed.getClass().toString().equals("net.smileycorp.raids.common.entities.EntityPillager.class")) || killed.getClass() == EntityVindicator.class) {
                 addDrop(event, getRandomSizeStack(Items.EMERALD, 0, 4));
             } else if (killed.getClass() == EntityVillager.class) {
                 addDrop(event, getRandomSizeStack(Items.EMERALD, 2, 6));
@@ -134,20 +132,20 @@ public class CREvents {
             } else if (killed.getClass() == EntityWitherSkeleton.class) {
                 addDrop(event, getRandomSizeStack(Items.BLAZE_POWDER, 0, 3));
                 addDropWithChance(event, new ItemStack(Items.GHAST_TEAR, 1), 20);
-                //addDropWithChance(event, new ItemStack(Items.NETHERITE_SCRAP, 1), 7);
+                addDropWithChance(event, new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation("futuremc", "netherite_scrap")), 1), 7);
+            } else if (Loader.isModLoaded("oe") && killed.toString().equals("com.sirsquidly.oe.entity.EntityDrowned.class")) {
+                addDropWithChance(event, CREvents.getRandomSizeStack(Items.DYE, 1, 3, 4), 30);
                 //} else if (killed.getClass() == EntityGhast.class) {
                 //    addDrop(event, getRandomSizeStack(Items.PHANTOM_MEMBRANE, 1, 4));
-                //} else if (killed.getClass() == DrownedEntity.class) {
-                //    addDropWithChance(event, getRandomSizeStack(Items.LAPIS_LAZULI, 1, 3), 30);
             } else if (killed.getClass() == EntityVex.class) {
                 addDrop(event, getRandomSizeStack(Items.GLOWSTONE_DUST, 0, 2));
                 //   addDropWithChance(event, new ItemStack(Items.PHANTOM_MEMBRANE, 1), 30);
                 //}  else if (killed.getClass() == PiglinEntity.class) {
                 //    addDropWithChance(event, getRandomSizeStack(Items.GOLD_INGOT, 2, 4), 50);
-                //} else if (killed.getClass() == RavagerEntity.class) {
-                //    addDrop(event, getRandomSizeStack(Items.EMERALD, 3, 10));
-                //    addDrop(event, getRandomSizeStack(Items.LEATHER, 2, 7));
-                //    addDropWithChance(event, getRandomSizeStack(Items.DIAMOND, 0, 4), 50);
+            } else if (Loader.isModLoaded("raids") && killed.getClass().toString().equals("net.smileycorp.raids.common.entities.EntityRavager.class")) {
+                addDrop(event, getRandomSizeStack(Items.EMERALD, 3, 10));
+                addDrop(event, getRandomSizeStack(Items.LEATHER, 2, 7));
+                addDropWithChance(event, getRandomSizeStack(Items.DIAMOND, 0, 4), 50);
             } else if (killed.getClass() == EntityMagmaCube.class) {
                 addDrop(event, getRandomSizeStack(Items.BLAZE_POWDER, 0, 1));
             } else if (killed.getClass() == EntityChicken.class) {
@@ -192,20 +190,6 @@ public class CREvents {
             return false;
         }
         return CursedRingMod.soulCrystal.getLostCrystals(player) < ConfigsCR.heartLoss;
-    }
-
-    @SubscribeEvent
-    public static void onEvent(BlockEvent.HarvestDropsEvent event) {
-        if (event.getHarvester() != null && !event.getDrops().isEmpty()) {
-            EntityPlayer player = event.getHarvester();
-
-            //Copied better survival mod by mujmajnkraft from https://github.com/mujmajnkraft/BetterSurvival, under MIT License.
-            if (hasCursed(player)) {
-                LootTable loottable = player.world.getLootTableManager().getLootTableFromLocation(new ResourceLocation(MODID, "cursed_drops"));
-                LootContext.Builder context = (new LootContext.Builder((WorldServer) player.world).withLuck(ConfigsCR.fortuneBonus));
-                event.getDrops().addAll(loottable.generateLootForPools(player.world.rand, context.build()));
-            }
-        }
     }
 
     @SubscribeEvent(priority = HIGH)
@@ -426,13 +410,14 @@ public class CREvents {
         if (ultraHardcore) {
             if (!data.getBoolean(SPAWN_WITH_CURSE)) {
                 IBaublesItemHandler baubles = BaublesApi.getBaublesHandler(event.player);
-                if (BaublesApi.getBaublesHandler(event.player).getStackInSlot(1) == ItemStack.EMPTY)
-                    baubles.setStackInSlot(1, new ItemStack(cursedRing));
+                if (BaublesApi.getBaublesHandler(event.player).getStackInSlot(2) == ItemStack.EMPTY)
+                    baubles.setStackInSlot(2, new ItemStack(cursedRing));
                 else
                     ItemHandlerHelper.giveItemToPlayer(event.player, new ItemStack(cursedRing));
             }
         } else {
-            ItemHandlerHelper.giveItemToPlayer(event.player, new ItemStack(cursedRing));
+            if (!data.getBoolean(SPAWN_WITH_CURSE))
+                ItemHandlerHelper.giveItemToPlayer(event.player, new ItemStack(cursedRing));
         }
 
         data.setBoolean(SPAWN_WITH_CURSE, true);
@@ -543,6 +528,9 @@ public class CREvents {
     }
 
     public static void addDrop(LivingDropsEvent event, ItemStack drop) {
+        if (drop == null || drop.getItem() == null)
+            return;
+
         EntityItem entityitem = new EntityItem(event.getEntityLiving().world, event.getEntityLiving().posX, event.getEntityLiving().posY, event.getEntityLiving().posZ, drop);
         entityitem.setPickupDelay(10);
         event.getDrops().add(entityitem);
@@ -556,6 +544,10 @@ public class CREvents {
 
     public static ItemStack getRandomSizeStack(Item item, int minAmount, int maxAmount) {
         return new ItemStack(item, minAmount + new Random().nextInt(maxAmount - minAmount + 1));
+    }
+
+    public static ItemStack getRandomSizeStack(Item item, int minAmount, int maxAmount, int meta) {
+        return new ItemStack(item, minAmount + new Random().nextInt(maxAmount - minAmount + 1), meta);
     }
 
     public static void addOneOf(LivingDropsEvent event, ItemStack... itemStacks) {
