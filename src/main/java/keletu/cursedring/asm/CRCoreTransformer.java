@@ -17,11 +17,13 @@ import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
 
+import java.lang.reflect.Field;
 import java.util.Iterator;
 
 public class CRCoreTransformer implements IClassTransformer {
@@ -34,7 +36,7 @@ public class CRCoreTransformer implements IClassTransformer {
 			byte[] newCode = patchGetFortuneModifier(origCode);
 			return newCode;
 		}
-		if (className.equals(isDeobfEnvironment ? "net.minecraft.enchantment.EnchantmentHelper" : "afv")) {
+		if (className.equals("net.minecraft.enchantment.EnchantmentHelper")) {
 			byte[] newCode = patchGetLootModifier(origCode);
 			return newCode;
 		}
@@ -44,7 +46,6 @@ public class CRCoreTransformer implements IClassTransformer {
 	private byte[] patchGetFortuneModifier(byte[] origCode) {
 		final String methodToPatch1 = "dropBlockAsItemWithChance";
 		final String methodToPatch_srg1 = "func_180653_a";
-		final String methodToPatch_obf1 = "a";
 
 		final String desc = "(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/state/IBlockState;FI)V";
 
@@ -53,7 +54,7 @@ public class CRCoreTransformer implements IClassTransformer {
 		cr.accept(classNode, 0);
 
 		for (MethodNode methodNode : classNode.methods) {
-			if ((methodNode.name.equals(methodToPatch1) || methodNode.name.equals(methodToPatch_srg1) || methodNode.name.equals(methodToPatch_obf1)) && methodNode.desc.equals(desc)) {
+			if ((methodNode.name.equals(methodToPatch1) || methodNode.name.equals(methodToPatch_srg1)) && methodNode.desc.equals(desc)) {
 				Iterator<AbstractInsnNode> insnNodes = methodNode.instructions.iterator();
 				while (insnNodes.hasNext()) {
 					AbstractInsnNode insn = insnNodes.next();
@@ -80,7 +81,6 @@ public class CRCoreTransformer implements IClassTransformer {
 	private byte[] patchGetLootModifier(byte[] origCode) {
 		final String methodToPatch2 = "getLootingModifier";
 		final String methodToPatch_srg2 = "func_185283_h";
-		final String methodToPatch_obf2 = "h";
 
 		final String desc = "(Lnet/minecraft/entity/EntityLivingBase;)I";
 
@@ -89,7 +89,7 @@ public class CRCoreTransformer implements IClassTransformer {
 		cr.accept(classNode, 0);
 
 		for (MethodNode methodNode : classNode.methods) {
-			if ((methodNode.name.equals(methodToPatch2) || methodNode.name.equals(methodToPatch_srg2) || methodNode.name.equals(methodToPatch_obf2)) && methodNode.desc.equals(desc)) {
+			if ((methodNode.name.equals(methodToPatch2) || methodNode.name.equals(methodToPatch_srg2)) && methodNode.desc.equals(desc)) {
 				Iterator<AbstractInsnNode> insnNodes = methodNode.instructions.iterator();
 				while (insnNodes.hasNext()) {
 					AbstractInsnNode insn = insnNodes.next();
@@ -109,16 +109,20 @@ public class CRCoreTransformer implements IClassTransformer {
 		return cw.toByteArray();
 	}
 
-	public static void block_dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) {
+	public static void block_dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune) throws IllegalAccessException {
 		if (!worldIn.isRemote)
 		{
-			int i = state.getBlock().quantityDroppedWithBonus(fortune + (state.getBlock().harvesters.get() != null && hasCursed(state.getBlock().harvesters.get()) ? ConfigsCR.fortuneBonus : 0), worldIn.rand) - 1;
+			Field field = ReflectionHelper.findField(Block.class, "harvesters");
+			field.setAccessible(true);
+			ThreadLocal<EntityPlayer> stupidForgeMethod = (ThreadLocal<EntityPlayer>) field.get(state.getBlock());
+
+			int i = state.getBlock().quantityDroppedWithBonus(fortune + (stupidForgeMethod.get() != null && hasCursed(stupidForgeMethod.get()) ? ConfigsCR.fortuneBonus : 0), worldIn.rand) - 1;
 
 			for (int j = 0; j < i; ++j)
 			{
 				if (worldIn.rand.nextFloat() <= chance)
 				{
-					Item item = state.getBlock().getItemDropped(state, worldIn.rand, fortune + (state.getBlock().harvesters.get() != null && hasCursed(state.getBlock().harvesters.get()) ? ConfigsCR.fortuneBonus : 0));
+					Item item = state.getBlock().getItemDropped(state, worldIn.rand, fortune + (stupidForgeMethod.get() != null && hasCursed(stupidForgeMethod.get()) ? ConfigsCR.fortuneBonus : 0));
 
 					if (item != Items.AIR)
 					{

@@ -5,7 +5,7 @@ import java.util.Map;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 @IFMLLoadingPlugin.Name(value = "CursedRingCore")
-@IFMLLoadingPlugin.TransformerExclusions({"keletu.cursedring.asm"})
+@IFMLLoadingPlugin.SortingIndex(Integer.MIN_VALUE)
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 public class CursedRingCore implements IFMLLoadingPlugin {
 
@@ -34,7 +34,7 @@ public class CursedRingCore implements IFMLLoadingPlugin {
 
 	@Override
 	public String getAccessTransformerClass() {
-		return "keletu.cursedring.asm.CRCoreTransformer";
+		return null;
 	}
 
 }
