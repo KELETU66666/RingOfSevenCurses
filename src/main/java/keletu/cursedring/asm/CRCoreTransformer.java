@@ -32,11 +32,11 @@ public class CRCoreTransformer implements IClassTransformer {
 	@Override
 	public byte[] transform(String className, String newClassName, byte[] origCode) {
 		isDeobfEnvironment = (Boolean) Launch.blackboard.get("fml.deobfuscatedEnvironment");
-		if (className.equals("net.minecraft.block.Block")) {
+		if (newClassName.equals("net.minecraft.block.Block")) {
 			byte[] newCode = patchGetFortuneModifier(origCode);
 			return newCode;
 		}
-		if (className.equals("net.minecraft.enchantment.EnchantmentHelper")) {
+		if (newClassName.equals("net.minecraft.enchantment.EnchantmentHelper")) {
 			byte[] newCode = patchGetLootModifier(origCode);
 			return newCode;
 		}

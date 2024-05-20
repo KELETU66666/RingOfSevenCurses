@@ -15,7 +15,7 @@ public class CursedRingCore implements IFMLLoadingPlugin {
 
 	@Override
 	public String[] getASMTransformerClass() {
-		return new String[]{"keletu.cursedring.asm.CRCoreTransformer"};
+		return null;
 	}
 
 	@Override
@@ -34,7 +34,7 @@ public class CursedRingCore implements IFMLLoadingPlugin {
 
 	@Override
 	public String getAccessTransformerClass() {
-		return null;
+		return "keletu.cursedring.asm.CRCoreTransformer";
 	}
 
 }

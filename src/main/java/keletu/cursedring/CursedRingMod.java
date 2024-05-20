@@ -7,6 +7,7 @@ import keletu.cursedring.item.ItemSoulCrystal;
 import keletu.cursedring.key.EnderChestRingHandler;
 import keletu.cursedring.packet.PacketEnderRingKey;
 import keletu.cursedring.packet.PacketRecallParticles;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.EnumRarity;
@@ -82,14 +83,7 @@ public class CursedRingMod {
             ModelLoader.setCustomModelResourceLocation(cursedRing, 0, new ModelResourceLocation(cursedRing.getRegistryName(), "inventory"));
             ModelLoader.setCustomModelResourceLocation(soulCrystal, 0, new ModelResourceLocation(soulCrystal.getRegistryName(), "inventory"));
 
-            RenderingRegistry.registerEntityRenderingHandler(EntityItemIndestructible.class, manager -> {
-                try {
-                    return RenderEntityItemIndestructible.class.getConstructor(RenderManager.class).newInstance(manager);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return null;
-                }
-            });
+            RenderingRegistry.registerEntityRenderingHandler(EntityItemIndestructible.class, manager -> new RenderEntityItemIndestructible(manager, Minecraft.getMinecraft().getRenderItem()));
         }
     }
 }
