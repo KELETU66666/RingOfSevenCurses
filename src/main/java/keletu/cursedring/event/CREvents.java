@@ -295,6 +295,9 @@ public class CREvents {
 
     @SubscribeEvent
     public static void tickHandler(TickEvent.PlayerTickEvent event) {
+        if(event.player.world.isRemote)
+            return;
+
         EntityPlayer player = event.player;
 
         IBaublesItemHandler baublesHandler = BaublesApi.getBaublesHandler(player);
